@@ -54,6 +54,21 @@ const createEmptySchedule = (bottleId) =>{
         })
     })
 }
+
+const removeBottle = (bottleId) =>{
+   return database('schedules').where({bottle_id:bottleId}).del()
+   .then(() => {
+     return database('measurements').where({bottle_id:bottleId}).del()
+   })
+   .then(() => {
+     return database('bottles').where({bottle_id:bottleId}).del()
+   })
+   .catch((error) => {
+      return new Promise((resolve, reject) => {
+        reject("delete failed");
+        })
+    })  
+}
     
 const openBottle = (request, response) => {
   const bottleId = request.body.bottle_id
@@ -91,9 +106,21 @@ const getBottleData = (request,response) =>{
     })
 }
 
+const deleteBottle = (request,response) =>{
+  const bottleId = request.params.bottle_id;
+  removeBottle(bottleId)
+  .then(() => {
+    response.status(200).json({result:"bottle succesfully deleted"});
+  })
+  .catch((error) => {
+      response.status(404).json(error);
+    })
+}
+
 
 module.exports = {
   openBottle,
   registerBottle,
-  getBottleData
+  getBottleData,
+  deleteBottle
 }

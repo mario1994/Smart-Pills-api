@@ -15,6 +15,7 @@ module.exports = function(app) {
     app.post('/registerBottle',Bottle.registerBottle)
     app.get('/getBottleData/:bottle_id',Bottle.getBottleData)
     app.post('/bottleOpen',Bottle.openBottle)
+    app.delete('/deleteBottle/:bottle_id',Bottle.deleteBottle)
         // Measurements endpoints 
     app.post('/createMeasurement',Measurement.registerTemperatureMeasurement)
     app.get('/getBottleMeasurments/:bottle_id',Measurement.getMeasurements)
